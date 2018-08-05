@@ -5,6 +5,7 @@ import com.thoughtworks.mallbackend.controller.request.OrderRequest;
 import com.thoughtworks.mallbackend.entity.Order;
 import com.thoughtworks.mallbackend.entity.OrderItem;
 import com.thoughtworks.mallbackend.entity.Product;
+import com.thoughtworks.mallbackend.exception.OrderNotFoundException;
 import com.thoughtworks.mallbackend.repository.OrderItemRepository;
 import com.thoughtworks.mallbackend.repository.OrderRepository;
 import com.thoughtworks.mallbackend.repository.ProductRepository;
@@ -35,6 +36,15 @@ public class OrderService {
             orderItem.setOrderId(order.getId());
             orderItemRepository.save(orderItem);
         });
+        return order;
+    }
+
+    public Order get(Long id) {
+        Order order = orderRepository.findById(id).orElseThrow(OrderNotFoundException::new);
+        order.setTotalPrice(order.getOrderItems()
+                .stream()
+                .mapToDouble(orderItem -> orderItem.getCount() * orderItem.getProduct().getPrice())
+                .sum());
         return order;
     }
 }
