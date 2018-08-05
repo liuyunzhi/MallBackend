@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Dev') {
             steps {
-                sh './gradlew bootRun'
+                sh './gradlew build'
             }
         }
         stage('CheckStyle') {
