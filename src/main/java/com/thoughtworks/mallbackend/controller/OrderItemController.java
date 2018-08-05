@@ -46,5 +46,6 @@ public class OrderItemController {
 
     @ExceptionHandler
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
-    private void exceptionHandler(OrderItemNotFoundException exception) {}
+    private void exceptionHandler(OrderItemNotFoundException exception) {
+    }
 }
