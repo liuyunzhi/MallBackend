@@ -21,4 +21,10 @@ public class OrderItemService {
         Product product = productRepository.findById(orderItemRequest.getProductId()).orElse(null);
         return orderItemRepository.save(new OrderItem(product, orderItemRequest.getOrderId(), orderItemRequest.getCount()));
     }
+
+    public void update(Long id, OrderItemRequest orderItemRequest) {
+        OrderItem oldOrderItem = orderItemRepository.findById(id).orElseThrow(OrderItemNotFoundException::new);
+        oldOrderItem.setCount(orderItemRequest.getCount());
+        orderItemRepository.save(oldOrderItem);
+    }
 }
