@@ -27,4 +27,9 @@ public class OrderItemService {
         oldOrderItem.setCount(orderItemRequest.getCount());
         orderItemRepository.save(oldOrderItem);
     }
+
+    public void remove(Long id) {
+        OrderItem orderItem = orderItemRepository.findById(id).orElseThrow(OrderItemNotFoundException::new);
+        orderItemRepository.delete(orderItem);
+    }
 }
