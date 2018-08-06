@@ -39,7 +39,7 @@ public class ProductAPITest {
     private int port;
 
     @Test
-    @DatabaseSetup("classpath:/products.xml")
+    @DatabaseSetup("classpath:/product/products.xml")
     public void should_return_product_list_when_get() {
         RestAssured
             .given()
@@ -52,8 +52,8 @@ public class ProductAPITest {
     }
 
     @Test
-    @DatabaseSetup("classpath:/products.xml")
-    @ExpectedDatabase(assertionMode = DatabaseAssertionMode.NON_STRICT, value = "classpath:/productsAfterAdd.xml")
+    @DatabaseSetup("classpath:/product/products.xml")
+    @ExpectedDatabase(assertionMode = DatabaseAssertionMode.NON_STRICT, value = "classpath:/product/productsAfterAdd.xml")
     public void should_add_a_prouct_when_post() throws ParseException {
         RestAssured
             .given()
@@ -75,8 +75,8 @@ public class ProductAPITest {
     }
 
     @Test
-    @DatabaseSetup("classpath:/products.xml")
-    @ExpectedDatabase(assertionMode = DatabaseAssertionMode.NON_STRICT, value = "classpath:/productsAfterUpdate.xml")
+    @DatabaseSetup("classpath:/product/products.xml")
+    @ExpectedDatabase(assertionMode = DatabaseAssertionMode.NON_STRICT, value = "classpath:/product/productsAfterUpdate.xml")
     public void should_update_the_product_when_put_a_product() throws ParseException {
         RestAssured
             .given()
