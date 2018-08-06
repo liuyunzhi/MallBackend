@@ -3,6 +3,7 @@ package com.thoughtworks.mallbackend.entity;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -26,7 +27,7 @@ public class Order {
     private Long id;
     private Date createDate;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "orderId")
     private List<OrderItem> orderItems;
 
@@ -36,8 +37,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(List<OrderItem> orderItems) {
-        this.createDate = new Date();
-        this.orderItems = orderItems;
+    public Order(Date createDate) {
+        this.createDate = createDate;
     }
 }
