@@ -18,6 +18,11 @@ public class OrderItemRequest {
         this.count = count;
     }
 
+    public OrderItemRequest(Long productId, Integer count) {
+        this.productId = productId;
+        this.count = count;
+    }
+
     public OrderItemRequest(Long productId, Long orderId, Integer count) {
         this.productId = productId;
         this.orderId = orderId;
