@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <product name="Sprite" price="2.5" unit="tin" image="1" description="drink"
+             production_date="2018-08-05 20:20:00" production_place="China"/>
+    <product name="Coca Cola" price="2.5" unit="tin" image="1" description="drink"
+             production_date="2018-08-05 20:20:00" production_place="China"/>
+    <product name="Drinking Water" price="2.0" unit="bottle" image="water" description="drinking water"
+             production_date="2018-08-05 20:20:00" production_place="China"/>
+</dataset>

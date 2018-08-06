@@ -24,4 +24,17 @@ public class Product {
     private String description;
     private Date productionDate;
     private String productionPlace;
+
+    public Product() {
+    }
+
+    public Product(String name, Double price, String unit, String image, String description, Date productionDate, String productionPlace) {
+        this.name = name;
+        this.price = price;
+        this.unit = unit;
+        this.image = image;
+        this.description = description;
+        this.productionDate = productionDate;
+        this.productionPlace = productionPlace;
+    }
 }
