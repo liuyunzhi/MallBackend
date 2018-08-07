@@ -2,12 +2,11 @@ package com.thoughtworks.mallbackend.api;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import com.github.springtestdbunit.annotation.ExpectedDatabase;
-import com.github.springtestdbunit.annotation.ExpectedDatabases;
 import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import com.thoughtworks.mallbackend.controller.request.OrderItemRequest;
 import com.thoughtworks.mallbackend.controller.request.OrderRequest;
-import com.thoughtworks.mallbackend.entity.OrderItem;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.Test;
@@ -41,12 +40,12 @@ public class OrderAPITest {
     private int port;
 
     @Test
-    @DatabaseSetup("classpath:/order/Orders.xml")
-    @DatabaseSetup("classpath:/orderitem/OrderItems.xml")
+    @DatabaseSetup("classpath:/order/OrderItems.xml")
+    @DatabaseSetup("classpath:/order/SimpleOrder.xml")
     @ExpectedDatabase(assertionMode = DatabaseAssertionMode.NON_STRICT,
-            value = "classpath:/order/OrdersAfterAdd.xml")
+            value = "classpath:/order/OrderItemsAfterAdd.xml")
     @ExpectedDatabase(assertionMode = DatabaseAssertionMode.NON_STRICT,
-            value = "classpath:/orderitem/OrderItemsAfterAdd.xml")
+            value = "classpath:/order/ExceptOrder.xml")
     public void should_add_a_order_when_post() {
         List<OrderItemRequest> orderItemRequests = new ArrayList<>();
         orderItemRequests.add(new OrderItemRequest(2L, 10));
@@ -57,6 +56,7 @@ public class OrderAPITest {
                 .request()
                 .contentType(ContentType.JSON)
                 .body(new OrderRequest(orderItemRequests))
+                .post("/orders")
             .then()
                 .statusCode(201)
                 .header("location", notNullValue());
@@ -74,6 +74,6 @@ public class OrderAPITest {
                 .get("/orders/1")
             .then()
                 .statusCode(200)
-                .body("totalPrice",is(2.5));
+                .body("totalPrice",is(12.5f));
     }
 }

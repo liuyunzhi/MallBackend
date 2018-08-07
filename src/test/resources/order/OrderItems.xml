@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
-    <orders id="1" create_date="2018-08-06 23:36:00"/>
+    <order_item product_id="1" order_id="1" count="5"/>
 </dataset>

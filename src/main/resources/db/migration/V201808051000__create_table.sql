@@ -11,7 +11,7 @@ CREATE TABLE `product` (
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `order` (
+CREATE TABLE `orders` (
   `id` bigint(11) NOT NULL AUTO_INCREMENT,
 `create_date` datetime NOT NULL,
 PRIMARY KEY (`id`)
