@@ -1,6 +1,7 @@
 package com.thoughtworks.mallbackend.controller;
 
 import com.thoughtworks.mallbackend.controller.request.OrderRequest;
+import com.thoughtworks.mallbackend.controller.response.OrderResponse;
 import com.thoughtworks.mallbackend.entity.Order;
 import com.thoughtworks.mallbackend.exception.OrderNotFoundException;
 import com.thoughtworks.mallbackend.service.OrderService;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/orders")
@@ -29,6 +31,12 @@ public class OrderController {
     public ResponseEntity add(@RequestBody OrderRequest orderRequest) {
         Order order = orderService.add(orderRequest);
         return ResponseEntity.created(URI.create("/orders/" + order.getId())).build();
+    }
+
+    @GetMapping
+    public ResponseEntity<Stream<OrderResponse>> getAll() {
+        return ResponseEntity.ok(orderService.getAll()
+                .stream().map(OrderResponse::new));
     }
 
     @GetMapping("/{id}")

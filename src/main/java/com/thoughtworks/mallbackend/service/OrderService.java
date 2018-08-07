@@ -1,5 +1,6 @@
 package com.thoughtworks.mallbackend.service;
 
+import com.thoughtworks.mallbackend.config.JwtUserDetails;
 import com.thoughtworks.mallbackend.controller.request.OrderItemRequest;
 import com.thoughtworks.mallbackend.controller.request.OrderRequest;
 import com.thoughtworks.mallbackend.entity.Order;
@@ -12,6 +13,7 @@ import com.thoughtworks.mallbackend.repository.OrderRepository;
 import com.thoughtworks.mallbackend.repository.ProductRepository;
 import com.thoughtworks.mallbackend.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -40,6 +42,12 @@ public class OrderService {
             orderItemRepository.save(orderItem);
         });
         return order;
+    }
+
+    public List<Order> getAll() {
+        final JwtUserDetails user = (JwtUserDetails) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+        return orderRepository.findByUserId(user.getId());
     }
 
     public Order get(Long id) {
