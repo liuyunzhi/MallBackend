@@ -35,8 +35,6 @@ public class ProductService {
         oldProduct.setUnit(product.getUnit());
         oldProduct.setImage(product.getImage());
         oldProduct.setDescription(product.getDescription());
-        oldProduct.setProductionDate(product.getProductionDate());
-        oldProduct.setProductionPlace(product.getProductionPlace());
         productRepository.save(oldProduct);
     }
 }

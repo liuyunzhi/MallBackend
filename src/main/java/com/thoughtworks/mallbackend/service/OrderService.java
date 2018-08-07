@@ -37,17 +37,13 @@ public class OrderService {
     }
 
     public Order get(Long id) {
-        Order order = orderRepository.findById(id).orElseThrow(OrderNotFoundException::new);
-        order.setTotalPrice(order.getOrderItems()
-                .stream()
-                .mapToDouble(orderItem -> orderItem.getCount() * orderItem.getProduct().getPrice())
-                .sum());
-        return order;
+        return orderRepository.findById(id).orElseThrow(OrderNotFoundException::new);
     }
 
     private List<OrderItem> mapRequestToEntity(List<OrderItemRequest> orderItemRequests) {
         return orderItemRequests.stream().map(orderItemRequest -> {
-            Product product = productRepository.findById(orderItemRequest.getProductId()).orElse(null);
+            Product product = productRepository.findById(orderItemRequest.getProductId())
+                    .orElse(null);
             return new OrderItem(product, orderItemRequest.getCount());
         }).collect(Collectors.toList());
     }
