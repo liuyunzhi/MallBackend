@@ -9,6 +9,8 @@ import com.thoughtworks.mallbackend.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class OrderItemService {
 
@@ -17,13 +19,25 @@ public class OrderItemService {
     @Autowired
     private ProductRepository productRepository;
 
-    public OrderItem add(OrderItemRequest orderItemRequest) {
-        Product product = productRepository.findById(orderItemRequest.getProductId()).orElse(null);
-        return orderItemRepository.save(new OrderItem(product, orderItemRequest.getOrderId(), orderItemRequest.getCount()));
+    public OrderItem add(Long orderId, OrderItemRequest orderItemRequest) {
+        Optional<OrderItem> optional = orderItemRepository.findByProductIdAndOrderId(
+                orderItemRequest.getProductId(),
+                orderId);
+        if (optional.isPresent()) {
+            OrderItem oldOrderItem = optional.get();
+            oldOrderItem.setCount(oldOrderItem.getCount() + orderItemRequest.getCount());
+            return orderItemRepository.save(oldOrderItem);
+        } else {
+            Product product = productRepository.findById(orderItemRequest.getProductId())
+                    .orElse(null);
+            return orderItemRepository.save(
+                    new OrderItem(product, orderId, orderItemRequest.getCount()));
+        }
     }
 
     public void update(Long id, OrderItemRequest orderItemRequest) {
-        OrderItem oldOrderItem = orderItemRepository.findById(id).orElseThrow(OrderItemNotFoundException::new);
+        OrderItem oldOrderItem = orderItemRepository.findById(id)
+                .orElseThrow(OrderItemNotFoundException::new);
         oldOrderItem.setCount(orderItemRequest.getCount());
         orderItemRepository.save(oldOrderItem);
     }

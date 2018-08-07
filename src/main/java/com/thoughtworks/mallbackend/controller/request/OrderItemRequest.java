@@ -8,7 +8,6 @@ import lombok.Setter;
 public class OrderItemRequest {
 
     private Long productId;
-    private Long orderId;
     private Integer count;
 
     public OrderItemRequest() {
@@ -20,12 +19,6 @@ public class OrderItemRequest {
 
     public OrderItemRequest(Long productId, Integer count) {
         this.productId = productId;
-        this.count = count;
-    }
-
-    public OrderItemRequest(Long productId, Long orderId, Integer count) {
-        this.productId = productId;
-        this.orderId = orderId;
         this.count = count;
     }
 }

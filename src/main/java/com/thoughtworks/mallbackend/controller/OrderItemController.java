@@ -20,20 +20,22 @@ import org.springframework.web.bind.annotation.RestController;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/orderItems")
+@RequestMapping("/orders/{orderId}/orderItems")
 public class OrderItemController {
 
     @Autowired
     private OrderItemService orderItemService;
 
     @PostMapping
-    public ResponseEntity add(@RequestBody OrderItemRequest orderItemRequest) {
-        OrderItem orderItem = orderItemService.add(orderItemRequest);
+    public ResponseEntity add(@PathVariable Long orderId,
+                              @RequestBody OrderItemRequest orderItemRequest) {
+        OrderItem orderItem = orderItemService.add(orderId, orderItemRequest);
         return ResponseEntity.created(URI.create("/orderItems/" + orderItem.getId())).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity update(@PathVariable Long id, @RequestBody OrderItemRequest orderItemRequest) {
+    public ResponseEntity update(@PathVariable Long id,
+                                 @RequestBody OrderItemRequest orderItemRequest) {
         orderItemService.update(id, orderItemRequest);
         return ResponseEntity.noContent().build();
     }
