@@ -5,15 +5,18 @@ import com.thoughtworks.mallbackend.controller.request.OrderRequest;
 import com.thoughtworks.mallbackend.entity.Order;
 import com.thoughtworks.mallbackend.entity.OrderItem;
 import com.thoughtworks.mallbackend.entity.Product;
+import com.thoughtworks.mallbackend.entity.Users;
 import com.thoughtworks.mallbackend.exception.OrderNotFoundException;
 import com.thoughtworks.mallbackend.repository.OrderItemRepository;
 import com.thoughtworks.mallbackend.repository.OrderRepository;
 import com.thoughtworks.mallbackend.repository.ProductRepository;
+import com.thoughtworks.mallbackend.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,9 +28,12 @@ public class OrderService {
     private OrderItemRepository orderItemRepository;
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private UsersRepository usersRepository;
 
     public Order add(OrderRequest orderRequest) {
-        Order order = new Order(new Date());
+        Users user = usersRepository.findById(orderRequest.getUserId()).orElse(null);
+        Order order = new Order(user, new Date());
         orderRepository.save(order);
         mapRequestToEntity(orderRequest.getOrderItems()).forEach(orderItem -> {
             orderItem.setOrderId(order.getId());

@@ -9,12 +9,14 @@ import java.util.List;
 @Setter
 public class OrderRequest {
 
+    private Long userId;
     private List<OrderItemRequest> orderItems;
 
     public OrderRequest() {
     }
 
-    public OrderRequest(List<OrderItemRequest> orderItems) {
+    public OrderRequest(Long userId, List<OrderItemRequest> orderItems) {
+        this.userId = userId;
         this.orderItems = orderItems;
     }
 }

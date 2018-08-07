@@ -37,7 +37,8 @@ public class Order {
     public Order() {
     }
 
-    public Order(Date createDate) {
+    public Order(Users user, Date createDate) {
+        this.user = user;
         this.createDate = createDate;
     }
 }
