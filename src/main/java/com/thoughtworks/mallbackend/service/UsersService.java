@@ -5,6 +5,7 @@ import com.thoughtworks.mallbackend.entity.Users;
 import com.thoughtworks.mallbackend.exception.UserNotFoundException;
 import com.thoughtworks.mallbackend.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,7 +16,13 @@ public class UsersService {
 
 
     public Users validate(UserRequest userRequest) {
-        return usersRepository.findByUsername(userRequest.getUsername())
+        Users user = usersRepository.findByUsername(userRequest.getUsername())
                 .orElseThrow(UserNotFoundException::new);
+
+        if (!BCrypt.checkpw(userRequest.getPassword(),user.getPassword())) {
+            return null;
+        }
+
+        return user;
     }
 }

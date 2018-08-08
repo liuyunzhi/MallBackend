@@ -33,8 +33,8 @@ public class OrderService {
     @Autowired
     private UsersRepository usersRepository;
 
-    public Order add(OrderRequest orderRequest) {
-        Users user = usersRepository.findById(orderRequest.getUserId()).orElse(null);
+    public Order add(JwtUserDetails userDetails, OrderRequest orderRequest) {
+        Users user = usersRepository.findById(userDetails.getId()).orElse(null);
         Order order = new Order(user, new Date());
         orderRepository.save(order);
         mapRequestToEntity(orderRequest.getOrderItems()).forEach(orderItem -> {
@@ -44,9 +44,8 @@ public class OrderService {
         return order;
     }
 
-    public List<Order> getAll() {
-        final JwtUserDetails user = (JwtUserDetails) SecurityContextHolder.getContext()
-                .getAuthentication().getPrincipal();
+    public List<Order> getAll(JwtUserDetails user) {
+
         return orderRepository.findByUserId(user.getId());
     }
 
